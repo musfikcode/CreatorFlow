@@ -62,12 +62,12 @@ export const AppSidebar = () => {
               <div className="flex items-center gap-x-2">
                 <Image
                   src="/images/appLogo/logo.webp"
-                  alt="Creambon Logo"
+                  alt="CreatorFlow Logo"
                   width={24}
                   height={24}
                   className="flex items-center justify-center"
                 />
-                <span className="font-semibold text-sm">Creambon</span>
+                <span className="font-semibold text-sm">Creatorflow</span>
               </div>
             </Link>
           </SidebarMenuButton>

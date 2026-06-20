@@ -101,7 +101,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
   });
 
   try {
-    const { steps } = await step.ai.wrap("gemini-generate-text", generateText, {
+    const { text } = await step.ai.wrap("gemini-generate-text", generateText, {
       model: google("gemini-2.5-flash"),
       system: systemPrompt,
       prompt: userPrompt,
@@ -111,9 +111,6 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
         recordOutputs: true,
       },
     });
-
-    const text =
-      steps[0].content[0].type === "text" ? steps[0].content[0].text : "";
 
     await publish(
       geminiChannel().status({

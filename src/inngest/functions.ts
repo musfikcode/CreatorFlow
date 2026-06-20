@@ -47,7 +47,7 @@ export const executeWorkflow = inngest.createFunction(
       slackChannel,
     ],
   },
-  async ({ event, step, publish }) => {
+  async ({ event, step, publish }: any) => {
     const inngestEventId = event.id;
     const workflowId = event.data.workflowId;
 
@@ -63,7 +63,7 @@ export const executeWorkflow = inngest.createFunction(
         },
       });
     });
-    ``;
+
     const sortedNodes = await step.run("prepare-workflow", async () => {
       const workflow = await prisma.workflow.findUniqueOrThrow({
         where: {

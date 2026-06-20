@@ -7,7 +7,7 @@ import { TRPCReactProvider } from "./api/trpc/client";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Creambon | Automation Toolkit",
+  title: "Creatorflow | Automation Toolkit",
   description: "Automate your daily tasks with ease.",
 };
 

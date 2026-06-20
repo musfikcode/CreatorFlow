@@ -12,11 +12,11 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           >
             <Image
               src="/images/appLogo/logo.webp"
-              alt="Creambon"
+              alt="Creatorflow"
               width={60}
               height={60}
             />
-            <span className="text-xl">Creambon</span>
+            <span className="text-xl">Creatorflow</span>
           </Link>
           {children}
         </div>

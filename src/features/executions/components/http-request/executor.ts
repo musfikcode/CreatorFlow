@@ -16,6 +16,25 @@ Handlebars.registerHelper("json", (context) => {
   }
 });
 
+// Helper to access nested properties by path string, handling special characters
+Handlebars.registerHelper("get", (obj, path) => {
+  if (!path || typeof path !== "string") return undefined;
+  
+  // Support both dot notation and array-like paths
+  // Examples: "responses.url", "responses.[url ?]"
+  const keys = path.match(/[^.[\]]+/g) || [];
+  
+  let result = obj;
+  for (const key of keys) {
+    if (result && typeof result === "object" && key in result) {
+      result = result[key as keyof typeof result];
+    } else {
+      return undefined;
+    }
+  }
+  return result;
+});
+
 type HttpRequestData = {
   variableName?: string;
   endpoint?: string;
@@ -83,9 +102,15 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
       try {
         const template = Handlebars.compile(data.endpoint);
         endpoint = template(context);
-        if (!endpoint || typeof endpoint !== "string") {
+        
+        // Trim the endpoint to handle whitespace-only strings
+        if (typeof endpoint === "string") {
+          endpoint = endpoint.trim();
+        }
+        
+        if (!endpoint || typeof endpoint !== "string" || endpoint.length === 0) {
           throw new Error(
-            "Endpoint template must resolve to a non-empty string.",
+            `Endpoint template must resolve to a non-empty string. Template: "${data.endpoint}", Resolved to: "${endpoint}". Available context keys: ${JSON.stringify(Object.keys(context))}`,
           );
         }
       } catch (error) {

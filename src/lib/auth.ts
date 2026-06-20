@@ -9,6 +9,11 @@ export const auth = betterAuth({
     provider: "postgresql",
   }),
 
+  trustedOrigins: [
+    "http://localhost:3000",
+    process.env.NEXT_PUBLIC_APP_URL as string,
+  ],
+
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,

@@ -6,7 +6,8 @@ if (!process.env.INNGEST_EVENT_KEY) {
   throw new Error("INNGEST EVENT KEY environment variable is required");
 }
 export const inngest = new Inngest({
-  id: "creambon",
+  id: "Creatorflow",
   eventKey: process.env.INNGEST_EVENT_KEY,
+  signingKey: process.env.INNGEST_SIGNING_KEY,
   middleware: [realtimeMiddleware()],
 });
