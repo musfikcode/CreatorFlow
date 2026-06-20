@@ -27,25 +27,45 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 - ✅ HTTP requests for custom integrations
 
 #### Phase 2 (Hackathon Additions - UNIQUE FEATURES)
+- 🔍 **AI Niche Research Engine** (FLAGSHIP FEATURE): Automated trend discovery and content strategy
+  - User enters their niche → Platform scrapes internet using Firecrawl
+  - Real-time trend detection (Google Trends, Reddit, YouTube, Twitter)
+  - Competitor content analysis and insights
+  - Pain point mining from forums/discussions
+  - AI-generated content opportunities based on research
+  - Weekly/daily automated research reports
+  - **Time Saved**: 10+ hours/week of manual research
+  
 - 🎨 **AI Content Repurposing Engine**: Transform one piece of content into multiple formats
   - YouTube video → Twitter thread + Instagram carousel + LinkedIn post + Blog article
   - Podcast episode → Show notes + Audiograms + Quote graphics + Newsletter
+  - **Enhanced**: Uses niche research data for better optimization
+  
+- 🧠 **Niche-Aware AI Content Generator**: Smart content creation with research insights
+  - Every AI generation incorporates trending topics from niche research
+  - Automatically includes high-performing keywords
+  - Addresses real pain points discovered from scraping
+  - Learns from competitor strategies
+  - Platform-specific optimization
+  - **Unique**: Not generic AI - deeply personalized to niche
   
 - 📊 **Creator Analytics Dashboard**: Unified metrics from all platforms
   - Cross-platform performance comparison
   - Best posting times analysis
   - Audience growth tracking
   - Revenue analytics (sponsorships, products, memberships)
+  - Research-driven insights
   
 - 🤖 **AI Comment/DM Responder**: Smart auto-responses for common questions
   - Learns from your previous responses
   - Handles FAQs automatically
   - Escalates complex queries to you
   
-- 📅 **Smart Content Calendar**: AI-powered scheduling
+- 📅 **Smart Content Calendar**: AI-powered scheduling with research integration
   - Suggests optimal posting times per platform
-  - Content gap analysis
-  - Trend-based recommendations
+  - Content gap analysis from niche research
+  - Trend-based recommendations (real-time)
+  - Competitor activity alerts
   
 - 💰 **Sponsorship Manager**: Track deals and deliverables
   - Contract tracking
@@ -54,6 +74,9 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
   - ROI reporting for brands
   
 - 🎬 **Content Templates Library**: Pre-built workflows for creators
+  - "Niche Research → Weekly Content Calendar" (NEW)
+  - "Trend Alert → Rapid Content Creation" (NEW)
+  - "Competitor Tracker → Strategy Insights" (NEW)
   - "YouTube Upload → Multi-platform Distribution"
   - "Podcast Episode → Content Suite"
   - "Sponsorship Onboarding → Deliverable Tracking"
@@ -149,7 +172,11 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 
 ### CreatorFlow Advantages
 - ✅ Built specifically for content creators
+- ✅ **AI Niche Research Engine** (UNIQUE - no competitor has this)
+- ✅ **Niche-aware content generation** (smarter than generic AI)
 - ✅ AI-powered content repurposing
+- ✅ Real-time trend detection and alerts
+- ✅ Automated competitor intelligence
 - ✅ Visual workflow builder (no coding)
 - ✅ Affordable pricing for individuals
 - ✅ Comprehensive creator toolkit
@@ -182,6 +209,8 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 ### AI & Integrations
 - **AI Models**: OpenAI GPT-4, Anthropic Claude, Google Gemini, DeepSeek
 - **AI SDK**: Vercel AI SDK
+- **Web Scraping**: Firecrawl (niche research and trend discovery)
+- **Data Sources**: Google Trends API, Reddit API, YouTube Data API, Twitter API
 - **Payment Processing**: Stripe
 - **Communication**: Discord, Slack
 - **Forms**: Google Forms
@@ -256,7 +285,105 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 
 ## 🎨 Unique Features to Build (Priority Order)
 
-### 1. AI Content Repurposing Engine (HIGH PRIORITY)
+### 1. AI Niche Research Engine (HIGHEST PRIORITY - FLAGSHIP)
+**User Story**: "I enter my niche, and CreatorFlow automatically researches trending topics, competitor strategies, and gives me data-backed content ideas every week."
+
+**Why This Is THE Differentiator:**
+- No competitor offers automated niche research
+- Solves the biggest creator pain point: "What should I create?"
+- Transforms CreatorFlow from automation tool → strategic partner
+- Creates massive time savings (10+ hours/week)
+- Network effect: Better data as more creators use it
+
+**Implementation**:
+- **New Models** (Prisma):
+  ```prisma
+  model User {
+    niche          String?
+    nicheKeywords  String[]
+    researchData   ResearchData[]
+  }
+  
+  model ResearchData {
+    userId           String
+    niche            String
+    trendingTopics   Json   // Array of topics with scores
+    contentIdeas     Json   // AI-generated opportunities
+    competitorData   Json   // Competitor analysis
+    keywords         String[]
+    scrapedSources   Json   // URLs and data sources
+    createdAt        DateTime
+    expiresAt        DateTime
+  }
+  ```
+
+- **New Node Types**:
+  1. `NICHE_RESEARCH` - Firecrawl scraping + AI analysis
+  2. `TREND_MONITOR` - Real-time trend alerts
+  3. `CONTENT_IDEA_GENERATOR` - AI generates ideas from research
+  4. `COMPETITOR_TRACKER` - Monitor competitor activity
+
+- **New Pages**:
+  - `/onboarding/niche` - Niche setup flow
+  - `/research/dashboard` - View research insights
+  - `/research/trends` - Trending topics in niche
+  - `/research/competitors` - Competitor analysis
+
+- **Firecrawl Integration**:
+  ```typescript
+  // Research orchestrator
+  async function runNicheResearch(userId: string, niche: string) {
+    // 1. Scrape multiple sources
+    const googleTrends = await scrapeGoogleTrends(niche);
+    const redditData = await scrapeReddit(niche);
+    const youtubeData = await scrapeYouTube(niche);
+    const twitterData = await scrapeTwitter(niche);
+    
+    // 2. AI analysis
+    const analysis = await aiAnalyze({
+      sources: [googleTrends, redditData, youtubeData, twitterData],
+      niche,
+      previousResearch: await getPreviousResearch(userId)
+    });
+    
+    // 3. Generate content opportunities
+    const ideas = await generateContentIdeas(analysis);
+    
+    // 4. Save to database
+    await saveResearchData(userId, {
+      trendingTopics: analysis.trends,
+      contentIdeas: ideas,
+      keywords: analysis.keywords
+    });
+    
+    // 5. Notify user
+    await notifyUser(userId, "New research insights available!");
+  }
+  ```
+
+- **Workflow Integration**:
+  - Research data accessible in all content generation nodes
+  - Auto-include trending keywords option
+  - Competitor insights available as context
+
+**Technical Challenges**:
+- Rate limiting on data sources → Implement caching
+- Data freshness → Scheduled background jobs
+- Cost management → Smart scraping (only new data)
+
+### 2. Niche-Aware Content Generator (HIGH PRIORITY)
+**User Story**: "When I generate content, it automatically incorporates trending topics from my niche research and addresses pain points my audience actually has."
+
+**Implementation**:
+- Enhance existing AI nodes to accept research context
+- New prompt engineering that incorporates:
+  - Trending keywords
+  - Pain points from forums
+  - Competitor gaps
+  - Performance predictions
+- New node: `NICHE_AWARE_CONTENT_GENERATOR`
+
+### 3. AI Content Repurposing Engine (HIGH PRIORITY)
 **User Story**: "I upload a YouTube video, and CreatorFlow automatically creates a Twitter thread, Instagram carousel, LinkedIn post, and blog article."
 
 **Implementation**:
@@ -264,8 +391,22 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 - Input: Video URL/transcript, blog post, podcast audio
 - AI analyzes content and generates multiple formats
 - Output: Platform-specific content with optimal formatting
+- **Enhanced**: Uses niche research to optimize repurposed content
 
-### 2. Creator Analytics Dashboard (HIGH PRIORITY)
+### 4. Content Templates Library (MEDIUM PRIORITY)
+**User Story**: "I browse pre-built workflows and clone them to my account."
+
+**Implementation**:
+- New page: `/templates`
+- Categories: Research & Strategy, YouTube, Podcast, Newsletter, Social Media
+- **New Templates**:
+  - "Weekly Niche Research → Content Calendar"
+  - "Trend Alert → Rapid Content Creation"
+  - "Competitor Tracker → Strategy Insights"
+- One-click clone functionality
+- Community-contributed templates
+
+### 5. Creator Analytics Dashboard (MEDIUM PRIORITY)
 **User Story**: "I see all my metrics from YouTube, Instagram, Twitter, and Stripe in one dashboard."
 
 **Implementation**:
@@ -273,17 +414,9 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 - Aggregate data from multiple sources
 - Charts: Growth trends, engagement rates, revenue
 - AI insights: "Your Instagram engagement is 30% higher on Tuesdays"
+- **Enhanced**: Compare performance against niche trends
 
-### 3. Content Templates Library (MEDIUM PRIORITY)
-**User Story**: "I browse pre-built workflows and clone them to my account."
-
-**Implementation**:
-- New page: `/templates`
-- Categories: YouTube, Podcast, Newsletter, Social Media
-- One-click clone functionality
-- Community-contributed templates
-
-### 4. Smart Scheduling (MEDIUM PRIORITY)
+### 6. Smart Scheduling (LOW PRIORITY)
 **User Story**: "CreatorFlow suggests the best time to post based on my audience data."
 
 **Implementation**:
@@ -292,7 +425,7 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 - Calendar view with suggestions
 - Auto-schedule feature
 
-### 5. Sponsorship Manager (LOW PRIORITY - Post-Hackathon)
+### 7. Sponsorship Manager (LOW PRIORITY - Post-Hackathon)
 **User Story**: "I track all my sponsorship deals, deliverables, and payments in one place."
 
 **Implementation**:
@@ -326,32 +459,49 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 
 ## 🚀 Implementation Timeline
 
-### Week 1: Foundation & Unique Feature #1
-- [ ] Rebrand to CreatorFlow
+### Week 1: Foundation & FLAGSHIP Feature
+- [x] Rebrand to CreatorFlow
+- [ ] **AI Niche Research Engine (FLAGSHIP)**
+  - [ ] Firecrawl integration setup
+  - [ ] Database schema for research data
+  - [ ] Niche onboarding flow
+  - [ ] Google Trends scraping
+  - [ ] Reddit/forum scraping
+  - [ ] AI analysis pipeline
+  - [ ] Research dashboard UI
 - [ ] Update README and documentation
-- [ ] Build AI Content Repurposing Engine
+
+### Week 2: Content Generation & Integration
+- [ ] **Niche-Aware Content Generator**
+  - [ ] Enhance AI nodes with research context
+  - [ ] New prompt templates
+  - [ ] Trend integration logic
+- [ ] **AI Content Repurposing Engine**
+  - [ ] Content analyzer
+  - [ ] Platform-specific formatters
+  - [ ] Quality validation
 - [ ] Add YouTube integration node
 - [ ] Add Twitter/X integration node
 
-### Week 2: Unique Features #2 & #3
-- [ ] Build Creator Analytics Dashboard
+### Week 3: Templates & Analytics
+- [ ] **Content Templates Library**
+  - [ ] Research-based templates
+  - [ ] Template marketplace UI
+  - [ ] Clone functionality
+- [ ] **Creator Analytics Dashboard**
+  - [ ] Multi-platform data aggregation
+  - [ ] Visualization components
+  - [ ] AI insights generator
 - [ ] Add Instagram integration (basic)
-- [ ] Create Content Templates Library
-- [ ] Seed 10 starter templates
-- [ ] Improve UI/UX for creator audience
 
-### Week 3: Polish & Documentation
-- [ ] Create demo video
-- [ ] Write hackathon documentation
-- [ ] Add onboarding flow
+### Week 4: Polish & Launch
+- [ ] UI/UX improvements for creator audience
+- [ ] Onboarding flow with niche setup
 - [ ] Performance optimization
-- [ ] Bug fixes and testing
-
-### Week 4: Launch Preparation
-- [ ] Deploy to production
-- [ ] Set up custom domain
-- [ ] Create marketing materials
+- [ ] Create demo video showcasing research engine
+- [ ] Write hackathon documentation
 - [ ] Prepare pitch deck
+- [ ] Deploy to production
 - [ ] Practice demo presentation
 
 ## 📝 Hackathon Documentation Checklist
@@ -383,3 +533,388 @@ Content creators spend 60-70% of their time on repetitive tasks instead of creat
 ---
 
 **Next Steps**: Start implementing unique features!
+
+
+---
+
+## 🔬 Technical Deep Dive: Niche Research Engine
+
+### Architecture Overview
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    User Onboarding                          │
+│          (Enter niche: "sustainable fashion")               │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────────────────────┐
+│              Research Orchestrator (Inngest)                │
+│  • Scheduled jobs (daily/weekly)                            │
+│  • Event-driven triggers                                    │
+│  • Parallel scraping execution                              │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+        ┌────────────┴────────────┐
+        ▼                         ▼
+┌──────────────────┐    ┌──────────────────┐
+│  Data Scrapers   │    │  AI Analysis     │
+│  (Firecrawl)     │───>│  Pipeline        │
+└──────────────────┘    └──────────────────┘
+   │   │   │   │              │
+   │   │   │   └──────┐       │
+   ▼   ▼   ▼   ▼      │       ▼
+ Google Reddit YouTube Twitter  ┌──────────────────┐
+ Trends Forums  Data   Trends   │ Content Ideas    │
+                                │ Generator        │
+                                └────────┬─────────┘
+                                         │
+                                         ▼
+                              ┌──────────────────────┐
+                              │  PostgreSQL DB       │
+                              │  • ResearchData      │
+                              │  • TrendingTopics    │
+                              │  • ContentIdeas      │
+                              └──────────────────────┘
+                                         │
+                                         ▼
+                              ┌──────────────────────┐
+                              │  Research Dashboard  │
+                              │  & Workflow Nodes    │
+                              └──────────────────────┘
+```
+
+### Data Collection Strategy
+
+**Sources & What We Scrape:**
+
+1. **Google Trends**
+   - Rising search queries in niche
+   - Geographic distribution
+   - Related topics and queries
+   - Search volume trends (last 30 days)
+
+2. **Reddit**
+   - Subreddit discovery for niche
+   - Top posts (week/month)
+   - Common questions and pain points
+   - Discussion sentiment analysis
+
+3. **YouTube**
+   - Top videos in niche (last 7 days)
+   - Trending video topics and titles
+   - Engagement patterns (views/likes ratio)
+   - Comment sentiment
+
+4. **Twitter/X**
+   - Trending hashtags in niche
+   - Viral threads in topic
+   - Influencer activity
+   - Engagement metrics
+
+5. **Competitor URLs** (optional)
+   - Content posting frequency
+   - Topics covered
+   - Engagement performance
+   - Content format analysis
+
+### Database Schema
+
+```prisma
+model User {
+  id                String   @id @default(cuid())
+  niche             String?
+  nicheKeywords     String[]
+  competitorUrls    String[]
+  researchFrequency String   @default("weekly") // daily, weekly
+  researchData      ResearchData[]
+  createdAt         DateTime @default(now())
+}
+
+model ResearchData {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  niche            String
+  
+  // Trending topics with scores
+  trendingTopics   Json     // Array<{topic: string, score: number, sources: string[], keywords: string[]}>
+  
+  // AI-generated content ideas
+  contentIdeas     Json     // Array<{idea: string, reasoning: string, platforms: string[], estimatedEngagement: number}>
+  
+  // Competitor insights
+  competitorData   Json     // {topPerformers: Array<{url: string, engagement: number, strategy: string}>}
+  
+  // Keywords and hashtags
+  keywords         String[]
+  hashtags         String[]
+  
+  // Source URLs for transparency
+  scrapedSources   Json     // Array<{url: string, source: string, timestamp: string}>
+  
+  // Metadata
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime // Research freshness (7-30 days)
+  
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model TrendAlert {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  topic       String
+  niche       String
+  score       Int      // Trending score (0-100)
+  status      String   @default("new") // new, viewed, acted_on
+  createdAt   DateTime @default(now())
+  
+  @@index([userId, status])
+}
+```
+
+### API Routes (tRPC)
+
+```typescript
+// src/trpc/routers/research.ts
+
+export const researchRouter = router({
+  // Get latest research for user's niche
+  getLatest: protectedProcedure.query(async ({ ctx }) => {
+    const research = await ctx.db.researchData.findFirst({
+      where: { userId: ctx.user.id },
+      orderBy: { createdAt: 'desc' }
+    });
+    return research;
+  }),
+
+  // Trigger manual research
+  triggerResearch: protectedProcedure
+    .input(z.object({ niche: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      // Send Inngest event to start research
+      await inngest.send({
+        name: 'research/trigger',
+        data: { userId: ctx.user.id, niche: input.niche }
+      });
+      return { success: true };
+    }),
+
+  // Get trending topics
+  getTrends: protectedProcedure.query(async ({ ctx }) => {
+    const research = await ctx.db.researchData.findFirst({
+      where: { userId: ctx.user.id },
+      orderBy: { createdAt: 'desc' }
+    });
+    return research?.trendingTopics || [];
+  }),
+
+  // Get content ideas
+  getIdeas: protectedProcedure
+    .input(z.object({ limit: z.number().optional() }))
+    .query(async ({ ctx, input }) => {
+      const research = await ctx.db.researchData.findFirst({
+        where: { userId: ctx.user.id },
+        orderBy: { createdAt: 'desc' }
+      });
+      const ideas = research?.contentIdeas || [];
+      return input.limit ? ideas.slice(0, input.limit) : ideas;
+    }),
+
+  // Update user niche
+  updateNiche: protectedProcedure
+    .input(z.object({
+      niche: z.string(),
+      keywords: z.array(z.string()).optional(),
+      competitorUrls: z.array(z.string()).optional()
+    }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db.user.update({
+        where: { id: ctx.user.id },
+        data: {
+          niche: input.niche,
+          nicheKeywords: input.keywords,
+          competitorUrls: input.competitorUrls
+        }
+      });
+      return { success: true };
+    })
+});
+```
+
+### Inngest Functions
+
+```typescript
+// src/inngest/functions/niche-research.ts
+
+import { inngest } from '../client';
+import Firecrawl from '@mendable/firecrawl-js';
+
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
+
+export const nicheResearchFunction = inngest.createFunction(
+  {
+    id: 'niche-research',
+    name: 'Automated Niche Research',
+    rateLimit: {
+      limit: 5, // Max 5 research jobs per hour
+      period: '1h'
+    }
+  },
+  { event: 'research/trigger' },
+  async ({ event, step }) => {
+    const { userId, niche } = event.data;
+
+    // Step 1: Scrape Google Trends
+    const trendsData = await step.run('scrape-google-trends', async () => {
+      const query = `${niche} trends`;
+      const results = await firecrawl.scrapeUrl(`https://trends.google.com/trends/explore?q=${encodeURIComponent(niche)}`);
+      return parseTrendsData(results);
+    });
+
+    // Step 2: Scrape Reddit (parallel)
+    const redditData = await step.run('scrape-reddit', async () => {
+      const subreddits = await findRelevantSubreddits(niche);
+      const posts = await Promise.all(
+        subreddits.map(sub => firecrawl.scrapeUrl(`https://reddit.com/r/${sub}/top?t=week`))
+      );
+      return parseRedditData(posts);
+    });
+
+    // Step 3: Scrape YouTube
+    const youtubeData = await step.run('scrape-youtube', async () => {
+      // Use YouTube Data API (more reliable than scraping)
+      const searchResults = await searchYouTube(niche, { maxResults: 50, order: 'viewCount' });
+      return analyzeYouTubeData(searchResults);
+    });
+
+    // Step 4: Scrape Twitter/X
+    const twitterData = await step.run('scrape-twitter', async () => {
+      const hashtags = generateHashtags(niche);
+      const tweets = await searchTweets(hashtags, { resultType: 'popular', count: 100 });
+      return analyzeTwitterData(tweets);
+    });
+
+    // Step 5: AI Analysis
+    const analysis = await step.run('ai-analysis', async () => {
+      const prompt = `Analyze this niche research data for "${niche}":
+      
+      Google Trends: ${JSON.stringify(trendsData)}
+      Reddit Data: ${JSON.stringify(redditData)}
+      YouTube Data: ${JSON.stringify(youtubeData)}
+      Twitter Data: ${JSON.stringify(twitterData)}
+      
+      Provide:
+      1. Top 10 trending topics (scored 0-100)
+      2. Common pain points and questions
+      3. Content gaps competitors are missing
+      4. Keyword opportunities for SEO
+      5. Optimal content formats for this niche`;
+
+      const response = await generateObject({
+        model: openai('gpt-4-turbo'),
+        schema: researchAnalysisSchema,
+        prompt
+      });
+
+      return response.object;
+    });
+
+    // Step 6: Generate Content Ideas
+    const contentIdeas = await step.run('generate-content-ideas', async () => {
+      const prompt = `Based on this research analysis, generate 10 high-potential content ideas:
+      ${JSON.stringify(analysis)}
+      
+      For each idea provide:
+      - Specific title/hook
+      - Reasoning (why it will perform)
+      - Best platforms
+      - Estimated engagement (1-10 scale)`;
+
+      const response = await generateObject({
+        model: openai('gpt-4-turbo'),
+        schema: contentIdeasSchema,
+        prompt
+      });
+
+      return response.object.ideas;
+    });
+
+    // Step 7: Save to Database
+    await step.run('save-research', async () => {
+      await db.researchData.create({
+        data: {
+          userId,
+          niche,
+          trendingTopics: analysis.trendingTopics,
+          contentIdeas,
+          competitorData: analysis.competitors,
+          keywords: analysis.keywords,
+          hashtags: twitterData.hashtags,
+          scrapedSources: [
+            { source: 'google_trends', timestamp: new Date() },
+            { source: 'reddit', timestamp: new Date() },
+            { source: 'youtube', timestamp: new Date() },
+            { source: 'twitter', timestamp: new Date() }
+          ],
+          expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) // 7 days
+        }
+      });
+    });
+
+    // Step 8: Send Notification
+    await step.run('notify-user', async () => {
+      await sendNotification(userId, {
+        title: 'New Research Insights Available!',
+        message: `Found ${analysis.trendingTopics.length} trending topics and ${contentIdeas.length} content ideas for ${niche}`,
+        link: '/research/dashboard'
+      });
+    });
+
+    return { success: true, topicsFound: analysis.trendingTopics.length };
+  }
+);
+
+// Scheduled daily research for active users
+export const scheduledResearchFunction = inngest.createFunction(
+  {
+    id: 'scheduled-niche-research',
+    name: 'Scheduled Daily Niche Research'
+  },
+  { cron: '0 6 * * *' }, // Every day at 6am
+  async ({ step }) => {
+    const users = await step.run('get-users', async () => {
+      return db.user.findMany({
+        where: {
+          niche: { not: null },
+          researchFrequency: 'daily'
+        }
+      });
+    });
+
+    for (const user of users) {
+      await inngest.send({
+        name: 'research/trigger',
+        data: { userId: user.id, niche: user.niche! }
+      });
+    }
+
+    return { usersTriggered: users.length };
+  }
+);
+```
+
+### Environment Variables
+
+```bash
+# Add to .env.local
+FIRECRAWL_API_KEY=fc-xxx
+YOUTUBE_DATA_API_KEY=AIzaSy...
+TWITTER_BEARER_TOKEN=Bearer xxx
+```
+
+---
+
+**Next Steps**: Start implementing the niche research engine!

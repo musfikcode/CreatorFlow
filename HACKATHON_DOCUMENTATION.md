@@ -107,6 +107,31 @@ The creator economy has exploded to over **$100 billion globally**, with **50+ m
 
 **Time Saved:** 4 hours → 5 minutes (95% reduction)
 
+### Example Workflow: "AI Niche Research → Content Calendar"
+
+**Input:** User's niche (e.g., "sustainable fashion")
+**Process:**
+1. **Niche Research Node** scrapes web using Firecrawl:
+   - Top trending topics in sustainable fashion
+   - Popular questions on Reddit, Quora
+   - Competitor content analysis
+   - Hashtag trends on Instagram/TikTok
+   - Google Trends data
+2. **AI Analysis** identifies:
+   - 10 high-potential content topics
+   - Optimal posting times per platform
+   - Keyword opportunities
+   - Content gaps competitors are missing
+3. **Content Generator Nodes** create:
+   - 7 days of platform-specific posts
+   - SEO-optimized blog titles
+   - Video script ideas with hooks
+4. **Schedule** content across platforms
+5. **Monitor** performance and refine strategy
+
+**Time Saved:** 10 hours of research → 15 minutes (98% reduction)
+**Competitive Advantage:** Data-driven content strategy based on real-time trends
+
 ---
 
 ## 🏗️ Technical Architecture
@@ -179,6 +204,7 @@ The creator economy has exploded to over **$100 billion globally**, with **50+ m
 - **Anthropic Claude** - Long-context reasoning
 - **Google Gemini** - Multimodal AI capabilities
 - **DeepSeek** - Cost-effective AI alternative
+- **Firecrawl** - Web scraping for niche research and trend discovery
 - **Stripe** - Payment webhooks and processing
 - **Discord/Slack** - Notification channels
 
@@ -195,8 +221,23 @@ model User {
   id            String
   name          String
   email         String
+  niche         String?        // User's content niche
+  nicheKeywords String[]       // Keywords associated with niche
   workflows     Workflow[]
   credentials   Credential[]
+  researchData  ResearchData[] // Niche research history
+}
+
+model ResearchData {
+  id                String
+  userId            String
+  niche             String
+  trendingTopics    Json          // Array of trending topics with scores
+  contentIdeas      Json          // AI-generated content opportunities
+  competitorData    Json          // Competitor analysis
+  keywords          String[]      // Trending keywords
+  createdAt         DateTime
+  expiresAt         DateTime      // Research freshness
 }
 
 model Workflow {
@@ -244,9 +285,122 @@ model Execution {
 
 ## ✨ Unique Features
 
-### 1. AI Content Repurposing Engine
+### 1. AI Niche Research Engine
 
-**The Innovation:** Transform one piece of content into 8+ platform-optimized formats using advanced AI.
+**The Innovation:** Automated niche research and trend discovery that keeps creators ahead of the curve with data-driven content strategies.
+
+**The Problem It Solves:**
+- Creators spend 5-10 hours/week researching trending topics
+- Manual research misses emerging trends
+- Guessing what content will perform
+- Not knowing what competitors are doing
+- Creating content in a vacuum without market validation
+
+**How It Works:**
+1. **Niche Onboarding**
+   - User enters their niche during signup (e.g., "fitness for busy professionals")
+   - Optional: Add competitor URLs to track
+   - Set research frequency (daily/weekly)
+
+2. **Automated Research (Firecrawl + AI)**
+   - Scrapes top platforms in the niche:
+     - Google Trends for trending keywords
+     - Reddit for pain points and questions
+     - YouTube for top-performing videos
+     - Twitter/X for viral threads
+     - Blog aggregators for popular articles
+   - Analyzes competitor content strategies
+   - Identifies content gaps and opportunities
+
+3. **AI Analysis & Insights**
+   - Topic clustering (groups related trends)
+   - Sentiment analysis (what resonates)
+   - Keyword extraction (SEO opportunities)
+   - Performance prediction (likelihood of virality)
+   - Content calendar suggestions
+
+4. **Workflow Integration**
+   - Research data available in workflow nodes
+   - AI-generated content uses niche insights
+   - Real-time trend alerts
+   - Competitor activity notifications
+
+**Technical Implementation:**
+```typescript
+// Niche Research Node
+interface NicheResearchConfig {
+  niche: string;
+  sources: ('google_trends' | 'reddit' | 'youtube' | 'twitter' | 'blogs')[];
+  competitorUrls?: string[];
+  depth: 'surface' | 'deep';
+  frequency: 'daily' | 'weekly';
+}
+
+// Output Structure
+interface ResearchOutput {
+  trendingTopics: Array<{
+    topic: string;
+    score: number;
+    sources: string[];
+    keywords: string[];
+  }>;
+  contentOpportunities: Array<{
+    idea: string;
+    reasoning: string;
+    platforms: string[];
+    estimatedEngagement: number;
+  }>;
+  competitorInsights: {
+    topPerformers: Array<{
+      url: string;
+      engagement: number;
+      strategy: string;
+    }>;
+  };
+  recommendations: string[];
+}
+```
+
+**Example Outputs:**
+
+**For "Sustainable Fashion" Niche:**
+```
+Trending Topics:
+1. "Circular fashion economy" (Score: 95/100)
+   - 3,200% increase in Google searches (last 30 days)
+   - 847 Reddit discussions
+   - Top keywords: "clothing rental", "resale platforms", "repair culture"
+
+2. "Greenwashing scandals" (Score: 88/100)
+   - Major brands called out on Twitter
+   - Opportunity: Educational content on spotting greenwashing
+
+Content Opportunities:
+1. "7 Signs a 'Sustainable' Brand Is Lying to You"
+   - Platform: Instagram Carousel + YouTube Short
+   - Estimated reach: 50K-100K
+   - Reasoning: High emotional engagement + shareable
+
+2. "I Wore Only Rented Clothes for 30 Days - Here's What Happened"
+   - Platform: YouTube Long-form + Blog
+   - Estimated reach: 100K-200K
+   - Reasoning: Experiment format performs well, trending topic
+```
+
+**Competitive Advantages:**
+- ✅ Real-time trend detection (not lagging indicators)
+- ✅ Data-driven content strategy (not guessing)
+- ✅ Competitor intelligence (know what's working)
+- ✅ Content gap analysis (find blue ocean opportunities)
+- ✅ Automated research (save 10+ hours/week)
+
+**User Impact:**
+- **Before:** "I spend hours scrolling platforms to find content ideas"
+- **After:** "I get 20 data-backed content ideas every week automatically"
+
+### 2. AI Content Repurposing Engine
+
+**The Innovation:** Transform one piece of content into 8+ platform-optimized formats using advanced AI with niche-specific insights.
 
 **How It Works:**
 1. User provides source content (video transcript, blog post, podcast notes)
@@ -283,10 +437,12 @@ model Execution {
 ```
 
 **Customization Options:**
+- **Niche Context:** Automatically incorporates niche research data
 - **Tone Selection:** Professional, Casual, Humorous, Educational
 - **Target Audience:** Specify demographics and interests
 - **Brand Voice:** Train on your previous content
 - **Format Preferences:** Choose which platforms to generate for
+- **Trend Integration:** Option to include trending keywords/topics from research
 
 **Example Output Quality:**
 
@@ -335,7 +491,141 @@ Caption: Full caption with hashtags and engagement hook
 #contentcreator #timemanagement #productivity
 ```
 
-### 2. Visual Workflow Builder
+### 3. Niche-Aware Content Generation
+
+**The Innovation:** AI content generation that's trained on your niche research data for hyper-relevant, trending content.
+
+**How It's Different from Generic AI:**
+- Generic AI: "Write a post about fitness"
+- CreatorFlow AI: "Write a post about fitness for busy professionals, incorporating the trending topic 'desk-based micro-workouts' (3,400% search increase), using pain points identified from Reddit research (lack of time, gym intimidation), and optimized for Instagram carousel format with 8 slides"
+
+**The Secret Sauce:**
+1. **Niche Research Integration**
+   - Every AI generation pulls from your niche research database
+   - Trending keywords automatically incorporated
+   - Competitor insights inform content angles
+   - Pain points from Reddit/Quora addressed
+
+2. **Performance Learning**
+   - Tracks which generated content performs best
+   - Learns your audience preferences over time
+   - Refines tone and style based on engagement data
+   - A/B testing suggestions
+
+3. **Context-Aware Prompting**
+```typescript
+// Standard AI Prompt
+"Write an Instagram post about sustainable fashion"
+
+// CreatorFlow Niche-Aware Prompt
+"Write an Instagram carousel post about sustainable fashion for the 
+audience profile: women 25-35, eco-conscious, urban professionals.
+
+Incorporate these trending insights:
+- 'Circular fashion economy' is trending (+3,200% searches)
+- Top pain point: 'I want to be sustainable but it's too expensive'
+- Winning angle: 'Cost per wear' calculations
+- Competitor gap: No one is covering rental platforms for work clothes
+
+Use successful post patterns from your analytics:
+- 'Before/after' format (avg. 15K likes)
+- 'Myth vs reality' format (avg. 12K likes)
+- 8-slide carousels with tips/hacks perform best
+
+Tone: Educational but not preachy, empowering
+Include: 2-3 hashtags from trending list
+CTA: 'Save for when you're shopping next'"
+```
+
+**Example Workflow: "Weekly Content Creation (Niche-Aware)"**
+```
+1. Niche Research Node (runs Monday 6am)
+   ↓
+2. AI Content Idea Generator (creates 10 ideas)
+   ↓
+3. User selects top 5 ideas
+   ↓
+4. Niche-Aware Content Generator (creates content for each)
+   ↓
+5. Platform-Specific Formatter
+   ↓
+6. Schedule across platforms
+   ↓
+7. Performance tracking begins
+```
+
+**Real Example Output:**
+
+**User Niche:** "Productivity for ADHD Adults"
+**Research Insight:** "Body doubling" is trending (+500% search)
+**Identified Pain Point:** "I can't focus when working alone"
+
+**Generated Instagram Carousel (8 slides):**
+
+```
+Slide 1: 🧠 "Why Your ADHD Brain Works Better With 'Body Doubling'"
+[Eye-catching graphic with brain illustration]
+
+Slide 2: "What is Body Doubling?"
+Working alongside someone (virtually or IRL) to stay focused
+You're not actually working together - just *being* together
+
+Slide 3: "Why It Works for ADHD"
+✓ Reduces executive dysfunction
+✓ Creates accountability without pressure
+✓ Mimics structured environment
+Research: 73% report improved focus (Source: CHADD 2024)
+
+Slide 4: "3 Ways to Find Body Doubling Partners"
+1. Focusmate.com (free virtual coworking)
+2. ADHD Discord communities
+3. Local libraries/cafes
+
+[... continues for 8 slides with actionable tips]
+
+Caption: 
+"If you have ADHD and can't focus alone, you're not broken - 
+your brain just works differently! 🧠✨
+
+Body doubling has been a GAME CHANGER for me. I went from 
+2-hour tasks taking all day to actually finishing my to-do list.
+
+The trending 'body doubling' method isn't new, but more 
+ADHD adults are discovering it works better than any 
+productivity app.
+
+Try Focusmate for FREE (not sponsored!) - it's literally 
+just 50-min video sessions where you work silently alongside 
+someone. No talking. No pressure. Just presence.
+
+Who else works better with someone nearby? Drop a 🙋‍♀️ if 
+this is you!
+
+#ADHDProductivity #BodyDoubling #ADHDTips #ProductivityHacks 
+#NeurodivergentLife #ADHDSupport"
+
+---
+
+Performance Prediction: 
+- Estimated reach: 25K-50K
+- Estimated engagement: 3-5% (higher than avg 1-2%)
+- Best posting time: Tuesday 7pm EST (based on your analytics)
+- Reasoning: Trending topic + addresses pain point + actionable
+```
+
+**Why This Matters:**
+- Content is **relevant** (uses trending topics)
+- Content is **targeted** (addresses real pain points)
+- Content is **timely** (posted when trend is rising)
+- Content is **optimized** (format that performs for this user)
+
+**Time Saved:**
+- Research: 2 hours → Automated
+- Ideation: 1 hour → 2 minutes
+- Content creation: 3 hours → 5 minutes
+- **Total: 6 hours → 7 minutes (94% reduction)**
+
+### 4. Visual Workflow Builder
 
 **The Innovation:** Intuitive drag-and-drop interface for building complex automations without code.
 
@@ -353,9 +643,13 @@ Caption: Full caption with hashtags and engagement hook
 - Webhook Trigger (external events)
 - Schedule Trigger (cron-based)
 - Platform Triggers (YouTube upload, Stripe payment)
+- Trend Alert Trigger (new trending topic detected)
+- Competitor Activity Trigger (competitor posts new content)
 
 **Actions:**
 - AI Content Generation
+- Niche Research (Firecrawl web scraping)
+- Trend Analysis & Topic Discovery
 - Platform Posting (YouTube, Twitter, Instagram)
 - Notifications (Discord, Slack, Email)
 - Data Transformation
@@ -367,11 +661,17 @@ Caption: Full caption with hashtags and engagement hook
 - Delays (wait X minutes)
 - Error Handling (try/catch)
 
-### 3. Creator-Specific Templates
+### 5. Creator-Specific Templates
 
 **The Innovation:** Pre-built, battle-tested workflows that creators can clone and customize.
 
 **Template Categories:**
+
+**Niche Research & Strategy:**
+- "Weekly Niche Research → Content Calendar"
+- "Trend Alert → Rapid Content Creation"
+- "Competitor Tracker → Strategy Insights"
+- "Reddit/Quora Mining → Content Ideas"
 
 **Content Distribution:**
 - "YouTube Video → Multi-Platform Suite"
