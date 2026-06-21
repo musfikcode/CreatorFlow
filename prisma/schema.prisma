@@ -20,10 +20,23 @@ model User {
   image         String?
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
-  sessions      Session[]
-  accounts      Account[]
-  workflows     Workflow[]
-  credentials   Credential[]
+  
+  // Phase 2: Niche Research fields
+  niche             String?
+  nicheKeywords     String[]
+  competitorUrls    String[]
+  researchFrequency String   @default("weekly") // "daily" or "weekly"
+  
+  // Relations
+  sessions            Session[]
+  accounts            Account[]
+  workflows           Workflow[]
+  credentials         Credential[]
+  researchData        ResearchData[]
+  trendAlerts         TrendAlert[]
+  workflowTemplates   WorkflowTemplate[]
+  analyticsSnapshots  AnalyticsSnapshot[]
+  templateReviews     TemplateReview[]
 
   @@unique([email])
   @@map("user")
@@ -182,4 +195,131 @@ model Execution {
 
   inngestEventId String @unique
   output         Json?
+}
+
+// Phase 2: Research Data Model
+model ResearchData {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  niche          String
+  trendingTopics Json     // Array<TrendingTopic>
+  contentIdeas   Json     // Array<ContentIdea>
+  competitorData Json     // CompetitorAnalysis
+  keywords       String[]
+  hashtags       String[]
+  scrapedSources Json     // Array<{url, source, timestamp}>
+  
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime // 7 days from creation
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@map("research_data")
+}
+
+// Phase 2: Trend Alert Model
+model TrendAlert {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  topic     String
+  niche     String
+  score     Int      // 0-100
+  velocity  String   // "rising", "stable", "declining"
+  platforms String[] // Recommended platforms
+  status    String   @default("new") // "new", "viewed", "acted_on"
+  sources   String[] // Source URLs for verification
+  
+  createdAt DateTime @default(now())
+  expiresAt DateTime // 48 hours from creation
+  
+  @@index([userId, status])
+  @@index([createdAt])
+  @@map("trend_alert")
+}
+
+// Phase 2: Workflow Template Model
+model WorkflowTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String   @db.Text
+  category    String   // "research_strategy", "content_distribution", "audience_engagement", "business_management"
+  
+  nodeData        Json     // Array of node configurations
+  connectionData  Json     // Array of connection configurations
+  
+  authorId String?
+  author   User?   @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  
+  cloneCount         Int     @default(0)
+  successRate        Float   @default(0.0)
+  averageRating      Float   @default(0.0)
+  estimatedTime      String? // e.g., "5 minutes", "1 hour"
+  timeSavings        String? // e.g., "Saves 10 hours per week"
+  
+  tags                String[]
+  requiredCredentials String[] // ["OPENAI", "FIRECRAWL", etc.]
+  nodeCount           Int      @default(0)
+  
+  published Boolean @default(false)
+  verified  Boolean @default(false) // CreatorFlow team verified
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  reviews TemplateReview[]
+  
+  @@index([category])
+  @@index([published])
+  @@index([authorId])
+  @@map("workflow_template")
+}
+
+// Phase 2: Template Review Model
+model TemplateReview {
+  id         String   @id @default(cuid())
+  templateId String
+  template   WorkflowTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  rating  Int    // 1-5
+  comment String @db.Text
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([templateId, userId]) // One review per user per template
+  @@index([templateId])
+  @@index([userId])
+  @@map("template_review")
+}
+
+// Phase 2: Analytics Snapshot Model
+model AnalyticsSnapshot {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  platformData       Json // Platform-specific metrics (YouTube, Instagram, Twitter, etc.)
+  aggregatedMetrics  Json // Cross-platform aggregated data
+  insights           Json // AI-generated insights with confidence scores
+  
+  // Quick access fields for common metrics
+  totalViews         Int     @default(0)
+  totalEngagements   Int     @default(0)
+  totalFollowers     Int     @default(0)
+  engagementRate     Float   @default(0.0)
+  revenue            Float   @default(0.0)
+  
+  createdAt DateTime @default(now())
+  
+  @@index([userId])
+  @@index([createdAt])
+  @@index([userId, createdAt])
+  @@map("analytics_snapshot")
 }
