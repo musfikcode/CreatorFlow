@@ -22,7 +22,12 @@ export interface SourceContent {
 export interface ContentAnalysis {
   keyPoints: string[];
   themes: string[];
-  tone: "professional" | "casual" | "educational" | "entertaining";
+  tone:
+    | "professional"
+    | "casual"
+    | "educational"
+    | "entertaining"
+    | "inspirational";
   targetAudience: string;
   quotableSegments: string[];
 }

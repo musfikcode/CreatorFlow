@@ -1,3 +1,4 @@
+import type { MaybePromise, Realtime } from "@inngest/realtime";
 import { NonRetriableError } from "inngest";
 import { getExecutor } from "@/features/executions/lib/executor-registry";
 import { ExecutionStatus, type NodeType } from "@/generated/prisma/client";
@@ -47,13 +48,26 @@ export const executeWorkflow = inngest.createFunction(
       slackChannel,
     ],
   },
-  async ({ event, step, publish }: any) => {
+  async ({ event, step, ...ctx }) => {
     const inngestEventId = event.id;
-    const workflowId = event.data.workflowId;
+    const workflowId = event.data.workflowId as string;
 
     if (!inngestEventId || !workflowId) {
       throw new NonRetriableError("Event ID or Workflow ID is missing");
     }
+
+    // Extract publish function from context if available (provided by realtime middleware)
+    const publish = (ctx as { publish?: Realtime.PublishFn }).publish;
+
+    // Create default no-op publish function if realtime is not available
+    const publishFn: Realtime.PublishFn =
+      publish ||
+      (<TMessage extends MaybePromise<Realtime.Message.Input>>(
+        _message: TMessage,
+      ): Promise<Awaited<TMessage>["data"]> => {
+        // No-op: Realtime not available
+        return Promise.resolve({} as Awaited<TMessage>["data"]);
+      });
 
     await step.run("create-execution", async () => {
       return prisma.execution.create({
@@ -103,7 +117,7 @@ export const executeWorkflow = inngest.createFunction(
         userId,
         context,
         step,
-        publish,
+        publish: publishFn,
       });
     }
 

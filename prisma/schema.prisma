@@ -323,3 +323,30 @@ model AnalyticsSnapshot {
   @@index([userId, createdAt])
   @@map("analytics_snapshot")
 }
+
+// Phase 2: Firecrawl Cache Model
+model FirecrawlCache {
+  id        String   @id @default(cuid())
+  url       String
+  content   String   @db.Text
+  metadata  Json?    @default("{}")
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  
+  @@unique([url])
+  @@index([url, expiresAt])
+  @@map("firecrawl_cache")
+}
+
+// Phase 2: Firecrawl Rate Limit Model
+model FirecrawlRateLimit {
+  id        String   @id @default(cuid())
+  hourBucket DateTime // Truncated to the hour (e.g., 2025-01-15 14:00:00)
+  requestCount Int    @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([hourBucket])
+  @@index([hourBucket])
+  @@map("firecrawl_rate_limit")
+}

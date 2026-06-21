@@ -42,19 +42,21 @@ The implementation follows a bottom-up approach: database schema and core servic
     - Export all types from `src/types/index.ts`
     - _Requirements: 17.2, 17.5, 17.6_
 
-- [ ] 2. Firecrawl Integration and Core Services
-  - [ ] 2.1 Set up Firecrawl SDK integration
-    - Install Firecrawl SDK: `bun add @mendable/firecrawl-js`
+- [-] 2. Firecrawl Integration and Core Services
+  - [x] 2.1 Set up Firecrawl SDK integration
+    - Install Firecrawl SDK: `bun add firecrawl`
     - Create `src/lib/firecrawl.ts` with Firecrawl client configuration
     - Add FIRECRAWL_API_KEY to environment variables
-    - Implement rate limiting (track requests per hour)
-    - Implement 24-hour caching layer using Redis
-    - Add retry logic with exponential backoff (3 retries, 1s/2s/4s delays)
-    - Add 30-second timeout per request
+    - Implement rate limiting (track requests per hour using Prisma + Neon)
+  - Implement 24-hour caching layer using Prisma + Neon
+  - Create FirecrawlCache Prisma model
+  - Add automatic cache expiration handling
+  - Add retry logic with exponential backoff (3 retries, 1s/2s/4s delays)
+  - Add 30-second timeout per request
     - _Requirements: 18.1, 18.2, 18.3, 18.4, 18.6, 18.10_
 
 
-  - [ ] 2.2 Create web scraping service layer
+  - [x] 2.2 Create web scraping service layer
     - Create `src/lib/scraping/google-trends.ts` for Google Trends scraping
     - Create `src/lib/scraping/reddit.ts` for Reddit subreddit data extraction
     - Create `src/lib/scraping/youtube.ts` using YouTube Data API
@@ -64,7 +66,7 @@ The implementation follows a bottom-up approach: database schema and core servic
     - Sanitize HTML content to extract plain text
     - _Requirements: 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 18.7, 18.8_
 
-  - [ ] 2.3 Create content repurposing service
+  - [x] 2.3 Create content repurposing service
     - Create `src/lib/repurpose/extractor.ts` for content extraction (YouTube, blog, podcast)
     - Create `src/lib/repurpose/analyzer.ts` for AI content analysis
     - Create `src/lib/repurpose/formatters/twitter.ts` for Twitter thread generation (280 chars/tweet)
@@ -78,7 +80,7 @@ The implementation follows a bottom-up approach: database schema and core servic
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.11_
 
 
-  - [ ] 2.4 Create AI analysis service for research insights
+  - [-] 2.4 Create AI analysis service for research insights
     - Create `src/lib/ai/research-analyzer.ts` for analyzing scraped data
     - Implement trending topic identification (score 0-100)
     - Implement pain point extraction from forums

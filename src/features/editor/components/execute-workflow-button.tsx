@@ -3,7 +3,10 @@
 import { useAtomValue } from "jotai";
 import { FlaskConicalIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useExecuteWorkflow, useUpdateWorkflow } from "@/features/workflows/hooks/use-workflows";
+import {
+  useExecuteWorkflow,
+  useUpdateWorkflow,
+} from "@/features/workflows/hooks/use-workflows";
 import { editorAtom } from "../store/atom";
 
 export const ExecuteWorkflowButton = ({
@@ -30,11 +33,7 @@ export const ExecuteWorkflowButton = ({
   const isPending = saveWorkflow.isPending || executeWorkflow.isPending;
 
   return (
-    <Button
-      size="lg"
-      onClick={handleExecute}
-      disabled={isPending}
-    >
+    <Button size="lg" onClick={handleExecute} disabled={isPending}>
       <FlaskConicalIcon className="size-4" />
       Execute Workflow
     </Button>

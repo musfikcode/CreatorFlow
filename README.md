@@ -1,276 +1,227 @@
-# CreatorFlow - AI-Powered Workflow Automation for Content Creators
+# CreatorFlow
 
-> Transform your content creation workflow with intelligent automation. Built for creators, by creators.
+> AI-powered workflow automation for content creators.
 
-![CreatorFlow Banner](https://via.placeholder.com/1200x400/6366f1/ffffff?text=CreatorFlow)
+## The Problem
 
-## 🎯 The Problem
-
-Content creators spend **60-70% of their time** on repetitive administrative tasks instead of creating:
+Content creators spend **60-70% of their time** on repetitive admin tasks instead of creating:
 - Manually posting the same content across 5+ platforms
-- Tracking sponsorship deliverables and payments  
-- Responding to similar comments/DMs repeatedly
-- Analyzing performance metrics from different platforms
-- Managing collaboration requests and contracts
+- Tracking sponsorship deliverables and payments
+- Responding to repetitive comments and DMs
+- Analyzing performance metrics scattered across platforms
+- Managing collaboration requests
 
-**The Cost**: A creator earning $5,000/month wastes $3,000 worth of time on admin tasks.
+A creator earning $5,000/month wastes roughly $3,000 worth of time on admin work.
 
-## 💡 The Solution
+## The Solution
 
-**CreatorFlow** is an AI-powered workflow automation platform built specifically for content creators. It automates repetitive tasks, centralizes multi-platform management, and uses AI to optimize content strategy - letting creators focus on what they do best: **creating**.
-
-## ✨ Unique Features
-
-### 🎨 AI Content Repurposing Engine
-Transform one piece of content into multiple platform-optimized formats:
-- YouTube video → Twitter thread + Instagram carousel + LinkedIn post + Blog article
-- Podcast episode → Show notes + Audiograms + Quote graphics + Newsletter
-- Blog post → Social media content suite
-
-**Supported Output Formats:**
-- Twitter/X Threads
-- Instagram Carousels
-- LinkedIn Posts
-- Blog Articles
-- YouTube Descriptions
-- Email Newsletters
-- TikTok Scripts
-- Podcast Show Notes
-
-### 📊 Creator Analytics Dashboard (Coming Soon)
-Unified metrics from all platforms in one place:
-- Cross-platform performance comparison
-- Best posting times analysis
-- Audience growth tracking
-- Revenue analytics (sponsorships, products, memberships)
-
-### 📚 Content Templates Library (Coming Soon)
-Pre-built workflows you can clone and customize:
-- "YouTube Upload → Multi-platform Distribution"
-- "Podcast Episode → Content Suite"
-- "Sponsorship Onboarding → Deliverable Tracking"
-- "Weekly Newsletter → Social Teasers"
-
-### 🤖 Smart Automation
-- Visual drag-and-drop workflow builder
-- AI-powered content generation
-- Multi-platform integrations
-- Real-time execution monitoring
-- Webhook triggers for instant automation
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **Next.js 16** - React framework with App Router
-- **TypeScript** - Type-safe development
-- **TailwindCSS v4** - Modern styling
-- **React Flow** - Visual workflow builder
-- **Radix UI + shadcn/ui** - Accessible components
-- **Jotai** - State management
-- **tRPC** - End-to-end type safety
-
-### Backend
-- **Node.js** - Runtime environment
-- **PostgreSQL** - Database
-- **Prisma** - Type-safe ORM
-- **Inngest** - Serverless workflow engine
-- **Better Auth** - Authentication
-
-### AI & Integrations
-- **OpenAI GPT-4** - Content generation
-- **Anthropic Claude** - Advanced reasoning
-- **Google Gemini** - Multimodal AI
-- **DeepSeek** - Cost-effective AI
-- **Stripe** - Payment webhooks
-- **Discord & Slack** - Notifications
-- **Google Forms** - Form triggers
-
-### DevOps
-- **Vercel** - Hosting & deployment
-- **Sentry** - Error tracking
-- **GitHub Actions** - CI/CD
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+ or Bun
-- PostgreSQL database
-- API keys for integrations (OpenAI, Anthropic, etc.)
-
-### Installation
-
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/creatorflow.git
-cd creatorflow
-```
-
-2. Install dependencies
-```bash
-bun install
-# or
-npm install
-```
-
-3. Set up environment variables
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and add your credentials:
-```env
-DATABASE_URL="postgresql://..."
-BETTER_AUTH_SECRET="your-secret"
-OPENAI_API_KEY="sk-..."
-ANTHROPIC_API_KEY="sk-ant-..."
-GOOGLE_GENERATIVE_AI_API_KEY="..."
-DEEPSEEK_API_KEY="..."
-# Add other API keys as needed
-```
-
-4. Set up the database
-```bash
-bun prisma generate
-bun prisma db push
-```
-
-5. Run the development server
-```bash
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see the app.
-
-### Running with Inngest (for workflow execution)
-```bash
-# Terminal 1: Next.js dev server
-bun dev
-
-# Terminal 2: Inngest dev server
-bun inngest
-```
-
-## 📖 How It Works
-
-1. **Create a Workflow**: Use the visual drag-and-drop editor
-2. **Add Trigger**: Choose how your workflow starts (manual, webhook, schedule)
-3. **Add Actions**: Connect AI models, integrations, and custom logic
-4. **Configure**: Set up your content, formats, and preferences
-5. **Execute**: Run manually or let triggers automate everything
-6. **Monitor**: Track execution status and results in real-time
-
-## 🎯 Use Cases
-
-### For YouTubers
-- Auto-generate video descriptions, tags, and thumbnails
-- Create social media teasers from video content
-- Send Discord notifications when videos go live
-- Track sponsorship deliverables
-
-### For Podcasters
-- Generate show notes from episode transcripts
-- Create audiogram clips for social media
-- Distribute episode announcements across platforms
-- Build email newsletters from episode content
-
-### For Bloggers
-- Repurpose articles into social media content
-- Schedule multi-platform distribution
-- Generate SEO-optimized meta descriptions
-- Create email newsletter versions
-
-### For Social Media Creators
-- Cross-post content to multiple platforms
-- Generate platform-specific variations
-- Schedule posts at optimal times
-- Track engagement across platforms
-
-## 💰 Business Model
-
-### Pricing Tiers
-
-**Free Tier** - Starter Creator
-- 100 workflow executions/month
-- 3 active workflows
-- 2 platform connections
-- Basic analytics
-
-**Pro Tier** - $19/month - Growing Creator
-- 5,000 executions/month
-- Unlimited workflows
-- Unlimited connections
-- AI content repurposing (50 uses/month)
-- Advanced analytics
-
-**Business Tier** - $49/month - Professional Creator
-- 25,000 executions/month
-- Everything in Pro
-- AI repurposing (500 uses/month)
-- Team collaboration (3 members)
-- White-label reports
-
-**Agency Tier** - $199/month - Creator Agency
-- 100,000 executions/month
-- Unlimited team members
-- Multi-client management
-- Custom integrations
-- Dedicated support
-
-## 🎨 Screenshots
-
-[Add screenshots of your application here]
-
-## 🗺️ Roadmap
-
-### Phase 1 (Current)
-- [x] Visual workflow builder
-- [x] AI integrations (OpenAI, Anthropic, Gemini, DeepSeek)
-- [x] Basic triggers and actions
-- [x] AI Content Repurposing Engine
-- [ ] YouTube integration
-- [ ] Twitter/X integration
-- [ ] Instagram integration
-
-### Phase 2 (Next 3 months)
-- [ ] Creator Analytics Dashboard
-- [ ] Content Templates Library
-- [ ] Smart scheduling with AI recommendations
-- [ ] Mobile app (React Native)
-- [ ] Workflow marketplace
-
-### Phase 3 (6-12 months)
-- [ ] Sponsorship manager
-- [ ] Team collaboration features
-- [ ] White-label solution
-- [ ] API for developers
-- [ ] International expansion
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details.
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👥 Team
-
-[Add your team information here]
-
-## 📞 Contact
-
-- Website: [creatorflow.app](https://creatorflow.app)
-- Email: hello@creatorflow.app
-- Twitter: [@creatorflow](https://twitter.com/creatorflow)
-- Discord: [Join our community](https://discord.gg/creatorflow)
-
-## 🙏 Acknowledgments
-
-- Built with [Next.js](https://nextjs.org)
-- UI components from [shadcn/ui](https://ui.shadcn.com)
-- Workflow engine powered by [Inngest](https://inngest.com)
-- AI models from OpenAI, Anthropic, Google, and DeepSeek
+CreatorFlow is an automation platform built specifically for creators. It combines a visual workflow builder, AI content tools, and platform integrations to eliminate the busywork — so you can focus on creating.
 
 ---
 
-**Made with ❤️ for content creators worldwide**
+## Features
+
+### Visual Workflow Builder
+Drag-and-drop editor for building automations without code. Connect triggers and actions, monitor executions in real time, and handle errors automatically with built-in retries.
+
+### AI Content Repurposing
+Turn one piece of content into a full multi-platform suite:
+- YouTube video → Twitter thread + Instagram carousel + LinkedIn post + blog article
+- Podcast episode → show notes + audiograms + newsletter
+- Blog post → social media content suite
+
+Supported output formats: Twitter/X threads, Instagram carousels, LinkedIn posts, blog articles, YouTube descriptions, email newsletters, TikTok scripts, podcast show notes.
+
+### Trend Research & Alerts (Phase 2)
+Stay ahead of your niche with automated research:
+- Trending topic discovery across platforms
+- Competitor content analysis via Firecrawl
+- Keyword and hashtag recommendations
+- Scheduled research runs (daily / weekly)
+- Real-time trend alerts with velocity scores
+
+### Content Template Marketplace (Phase 2)
+Browse and clone community-built workflows:
+- Pre-built templates for common creator workflows
+- Ratings, reviews, and clone counts
+- Verified templates from top creators
+- One-click setup with required credentials checklist
+
+### Analytics Dashboard (Phase 2)
+Unified metrics across all your platforms:
+- Cross-platform performance comparison
+- Aggregated views, engagements, followers, and revenue
+- AI-generated insights and recommendations
+- Historical snapshots for trend tracking
+
+### Platform Integrations
+- **AI Models**: OpenAI GPT-4, Anthropic Claude, Google Gemini, DeepSeek
+- **Notifications**: Discord, Slack
+- **Payments**: Stripe webhooks
+- **Forms**: Google Forms triggers
+- **Research**: Firecrawl web scraping, YouTube Data API
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript 5.9+ (strict) |
+| Styling | TailwindCSS v4 |
+| Workflow UI | React Flow (@xyflow/react) |
+| API | tRPC 11 (end-to-end type safety) |
+| Database | PostgreSQL + Prisma 7 |
+| Auth | Better Auth |
+| Workflow Engine | Inngest 3 (durable, event-driven) |
+| State | Jotai + TanStack Query |
+| Validation | Zod 4 |
+| UI Components | Radix UI + shadcn/ui |
+| AI SDK | Vercel AI SDK |
+| Payments | Polar |
+| Monitoring | Sentry + Vercel Analytics |
+| Package Manager | Bun |
+
+---
+
+## Getting Started
+
+### Prerequisites
+- [Bun](https://bun.sh) (or Node.js 18+)
+- PostgreSQL database (local or [Neon](https://neon.tech))
+- API keys for the integrations you want to use
+
+### Installation
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/yourusername/creatorflow.git
+cd creatorflow
+
+# 2. Install dependencies
+bun install
+
+# 3. Set up environment variables
+cp .env.example .env.local
+# Edit .env.local with your credentials
+
+# 4. Set up the database
+bun prisma generate
+bun prisma db push
+
+# 5. Start the development servers
+bun dev:all
+```
+
+Open [http://localhost:3000](http://localhost:3000) — it redirects to `/workflows` automatically.
+
+### Development Commands
+
+```bash
+bun dev          # Next.js dev server only
+bun inngest      # Inngest dev server only (workflow execution)
+bun dev:all      # Both servers together (recommended)
+bun ngrok:dev    # Start ngrok tunnel for webhook testing
+```
+
+### Database Commands
+
+```bash
+bun prisma generate    # Regenerate Prisma client after schema changes
+bun prisma:studio      # Open Prisma Studio GUI
+prisma db push         # Push schema changes without a migration
+prisma migrate dev     # Create and apply a named migration
+```
+
+### Code Quality
+
+```bash
+bun lint      # Run Biome linter
+bun format    # Format with Biome
+tsc --noEmit  # Type check
+```
+
+---
+
+## How It Works
+
+1. **Create a workflow** — open the visual editor and start from scratch or a template
+2. **Add a trigger** — manual click, webhook, Stripe event, Google Form submission, or HTTP request
+3. **Add actions** — AI generation, Discord/Slack notifications, or chain multiple steps
+4. **Configure** — set credentials, prompts, and output formats per node
+5. **Execute** — run manually or let triggers fire automatically
+6. **Monitor** — watch real-time execution logs and status updates
+
+---
+
+## Database Schema
+
+### Core Models
+- **User** — auth, profile, niche settings, and competitor URLs
+- **Workflow** — workflow definitions with node and connection data
+- **Node** — individual steps (triggers and actions)
+- **Connection** — edges between nodes with input/output mapping
+- **Execution** — run history with status and logs
+- **Credential** — AES-256 encrypted API keys per user
+
+### Phase 2 Models
+- **ResearchData** — cached trend research results with expiry
+- **TrendAlert** — individual alerts with velocity and platform scores
+- **WorkflowTemplate** — community templates with ratings and clone counts
+- **TemplateReview** — user reviews and ratings for templates
+- **AnalyticsSnapshot** — periodic cross-platform metrics snapshots
+
+### Node Types
+- **Triggers**: `MANUAL_TRIGGER`, `HTTP_REQUEST`, `GOOGLE_FORM_TRIGGER`, `STRIPE_TRIGGER`
+- **Actions**: `OPENAI`, `ANTHROPIC`, `GEMINI`, `DEEPSEEK`, `DISCORD`, `SLACK`
+
+---
+
+## Pricing
+
+| Tier | Price | Executions | Workflows |
+|---|---|---|---|
+| Free | $0 | 100/mo | 3 |
+| Pro | $19/mo | 5,000/mo | Unlimited |
+| Business | $49/mo | 25,000/mo | Unlimited |
+| Agency | $199/mo | 100,000/mo | Unlimited |
+
+---
+
+## Roadmap
+
+### Phase 1 ✅
+- [x] Visual workflow builder
+- [x] AI integrations (OpenAI, Anthropic, Gemini, DeepSeek)
+- [x] Triggers: manual, HTTP, Stripe, Google Forms
+- [x] Actions: Discord, Slack
+- [x] Credential management (AES-256 encrypted)
+- [x] Execution history and real-time monitoring
+- [x] Inngest-powered durable execution
+
+### Phase 2 ✅
+- [x] Trend research engine with Firecrawl
+- [x] Trend alerts with velocity scoring
+- [x] Workflow template marketplace
+- [x] Template reviews and ratings
+- [x] Cross-platform analytics snapshots
+- [x] User niche and competitor URL configuration
+
+### Phase 3 (Upcoming)
+- [ ] YouTube and Twitter/X integrations
+- [ ] Instagram integration
+- [ ] Smart content scheduling with AI recommendations
+- [ ] Team collaboration
+- [ ] Mobile app
+- [ ] Workflow API for developers
+
+---
+
+## Contributing
+
+Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
+
+## License
+
+[MIT](LICENSE)
